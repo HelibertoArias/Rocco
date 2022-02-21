@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/helibertoarias/RoccoSolution">
+  <a href="https://github.com/helibertoarias/Rocco">
     <img src="images/logo.jpg" alt="Logo" width="80" height="80">
   </a>
 
@@ -84,9 +84,9 @@ _To start using the application you should._
 
 1. Clone the repo.
    ```sh
-   git clone https://github.com/helibertoarias/RoccoSolution.git
+   git clone https://github.com/helibertoarias/Rocco.git
    ```
-2. Open the solution RoccoSolution.sln and build to restore the Nuget Packages.
+2. Open the solution Rocco.sln and build to restore the Nuget Packages.
 3. Set the project Rocco.Web.API as startup project.
 4. Open the file ./Rocco.Web.API/appsettings.json and update the user and password.
     ```json
@@ -100,7 +100,7 @@ _To start using the application you should._
      ```
 6. After this you can run the application. The Swagger page will show up
  [https://localhost:36000/swagger/index.html](https://localhost:36000/swagger/index.html)
-7. To validate the Web API you need to import the file *Rocco Company Collection.postman_collection.json* into [POSTMAN](https://www.postman.com/downloads/) and run the test collection. Here some screenshots.
+7. To validate the Web API you need to import the file *Rocco Company.postman_collection* into [POSTMAN](https://www.postman.com/downloads/) and run the test collection. Here some screenshots.
 
     
     - Select the imported file and hit the *Run* button.
