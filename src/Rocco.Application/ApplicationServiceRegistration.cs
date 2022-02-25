@@ -18,7 +18,7 @@ public static class ApplicationServiceRegistration
         // Register services
         services.AddScoped<ICompanyService, CompanyService>();
         //services.AddScoped<IEmployeeService, EmployeeService>();
-
+        
         return services;
     }
 }

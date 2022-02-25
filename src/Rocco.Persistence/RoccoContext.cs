@@ -4,16 +4,30 @@
 
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Rocco.Application.Contracts;
 using Rocco.Domain.Base;
 using Rocco.Domain.Entities;
-
 
 namespace Rocco.Persistence;
 
 // Working with DbContext - EF6 : https://bit.ly/3gUZK3k
 public class RoccoContext : DbContext
 {
-    public RoccoContext(DbContextOptions options) : base(options) { }
+    private readonly ILoggedInUserService _loggedInUserService;
+
+    public RoccoContext(DbContextOptions<RoccoContext> options) : base(options) { }
+
+    public RoccoContext(DbContextOptions<RoccoContext> options,
+                          ILoggedInUserService loggedInUserService) : base(options)
+    {
+        if (options is null)
+        {
+            throw new ArgumentNullException(nameof(options));
+        }
+
+
+        this._loggedInUserService = loggedInUserService ?? throw new ArgumentNullException(nameof(loggedInUserService));
+    }
 
     public DbSet<Company> Companies { get; set; } = null!;
 
@@ -22,13 +36,13 @@ public class RoccoContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Please put this in the Rocco.Persistence/Configuration folder
-        //modelBuilder.Entity<Employee>().HasKey(x => x.Id);
+        // modelBuilder.Entity<Emploee>().HasKey(x => x.Id);
 
         // Add All entity configurations in a dynamic way 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         // Old style to add configuration
-        //modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+        // modelBuilder.ApplyConfiguration(new CompanyConfiguration());
 
     }
 
@@ -40,14 +54,12 @@ public class RoccoContext : DbContext
             {
                 case EntityState.Added:
                     entry.Entity.CreatedDate = DateTime.Now;
-                    // TODO : Set user in session
-                    entry.Entity.CreatedBy = "Dummy";
+                    entry.Entity.CreatedBy = _loggedInUserService.UserId;
                     entry.Entity.IsDeleted = false;
                     break;
                 case EntityState.Modified:
                     entry.Entity.LastModifiedDate = DateTime.Now;
-                    // TODO : Set user in session
-                    entry.Entity.LastModifiedBy = "Dummy";
+                    entry.Entity.LastModifiedBy = _loggedInUserService.UserId;
                     break;
             }
         }

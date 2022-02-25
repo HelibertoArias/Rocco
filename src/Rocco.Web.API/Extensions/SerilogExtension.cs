@@ -1,4 +1,4 @@
-// <copyright file="SerilogHelper.cs" company="Rocco Company">
+// <copyright file="SerilogExtension.cs" company="Rocco Company">
 // Copyright (c) 2022, Heliberto Arias
 // </copyright>
 

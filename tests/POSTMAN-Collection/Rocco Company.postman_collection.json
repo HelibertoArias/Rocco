@@ -1,0 +1,616 @@
+{
+	"info": {
+		"_postman_id": "e1210208-8888-4d32-9dc1-6f53d8167cae",
+		"name": "Rocco Company",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200 or 400\", function () {\r",
+							"    let result =   pm.response;\r",
+							" \r",
+							"    if(pm.response.code !=  400){\r",
+							"        result =   result.json();\r",
+							"        pm.expect(result).to.has.property(\"userId\");\r",
+							"    }\r",
+							"   \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.clear(); \r",
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\" : \"Jane\",\r\n    \"LastName\" : \"Doe\",\r\n    \"UserName\" : \"JaneDoe\",\r\n    \"Email\" : \"JaneDoe@fakemail.com\",\r\n    \"Password\":  \"P4assword@1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/account/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    var response = pm.response.json();\r",
+							"\r",
+							"    pm.collectionVariables.set(\"token\", \"Bearer \" + response.token);\r",
+							"    pm.collectionVariables.set(\"username\", response.username);\r",
+							"    pm.collectionVariables.set(\"email\", response.email);\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\" : \"JaneDoe@fakemail.com\",\r\n    \"Password\" : \"P4assword@1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/account/authenticate",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Companies",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Companies",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Companies Paged",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Companies/?pageNumber=2&pageSize=1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						""
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "2"
+						},
+						{
+							"key": "pageSize",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Employees per companyId",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Companies/c9d4c053-49b6-410c-bc78-2d54a9991870/employees",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						"c9d4c053-49b6-410c-bc78-2d54a9991870",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Employee per companyId",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Companies/c9d4c053-49b6-410c-bc78-2d54a9991870/employees/80abbca8-664d-4b20-b5de-024705497d4a?",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						"c9d4c053-49b6-410c-bc78-2d54a9991870",
+						"employees",
+						"80abbca8-664d-4b20-b5de-024705497d4a"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Company",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Companies/42503a9c-dbc2-4e26-363b-08d9f4868711",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						"42503a9c-dbc2-4e26-363b-08d9f4868711"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Companies",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"eeH\",\r\n    \"address\" :\"ewa\",\r\n    \"country\" : \"ewc\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Companies",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Companies",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"op\": \"replace\",\r\n        \"path\" : \"/Name\",\r\n        \"value\" :\"a new value2\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Companies/24E46527-8EE1-405C-C15C-08D9F484CF8F",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						"24E46527-8EE1-405C-C15C-08D9F484CF8F"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Companies",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"Heeee\",\r\n    \"address\" :\"eeea\",\r\n    \"country\" : \"eeec\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Companies/24E46527-8EE1-405C-C15C-08D9F484CF8F",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						"24E46527-8EE1-405C-C15C-08D9F484CF8F"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Company",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"host\", \"https://localhost:36000\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    name : \"H\",\r\n    address :\"ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\",\r\n    country : \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Companies/D758EF46-DCB6-4191-6528-08D9F479C37A",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Companies",
+						"D758EF46-DCB6-4191-6528-08D9F479C37A"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		}
+	]
+}

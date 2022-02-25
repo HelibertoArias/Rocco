@@ -4,10 +4,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Rocco.Application.Contracts.Persistence;
+using Rocco.Application.Exceptions;
 using Rocco.Application.Models;
 using Rocco.Application.Services.Contracts;
+using Rocco.Domain.Entities;
 
 namespace Rocco.Application.Services;
 public class CompanyService : ICompanyService
@@ -25,121 +30,133 @@ public class CompanyService : ICompanyService
         _mapper = mapper;
     }
 
-    //public async Task AddCompanyAsync(CompanyDtoForInsert companyDto)
-    //{
-    //    var entity = _mapper.Map<Company>(companyDto);
+    public async Task AddCompanyAsync(CompanyDtoForInsert companyDto)
+    {
+        var entity = _mapper.Map<Company>(companyDto);
 
-    //    // TODO: Validate company create
-    //    await _companyRepository.Add(entity);
-    //    await _companyRepository.SaveChangesAsync();
+        // TODO: Validate company create
+        await _companyRepository.Add(entity);
+        await _companyRepository.SaveChangesAsync();
 
-    //}
+    }
 
-    //public async void DeleteCompany(Guid id)
-    //{
-    //    var entityToDelete = await _companyRepository.FindOneByCondition(x => x.Id == id, true);
+    public async Task DeleteCompany(Guid id)
+    {
+        var entityToDelete = await _companyRepository.FindOneByCondition(x => x.Id == id, true);
 
-    //    if (entityToDelete == null)
-    //    {
-    //        throw new NotFoundException(nameof(Company), id);
-    //    }
+        if (entityToDelete == null)
+        {
+            throw new NotFoundException(nameof(Company), id);
+        }
 
-    //    entityToDelete.IsDeleted = true;
+        entityToDelete.IsDeleted = true;
 
-    //    _companyRepository.Delete(entityToDelete);
-    //    await _companyRepository.SaveChangesAsync();
-    //}
+        _companyRepository.Delete(entityToDelete);
+        await _companyRepository.SaveChangesAsync();
+    }
 
     public IEnumerable<CompanyDto> FindAll()
     {
         var entities = _companyRepository.FindAllByCondition(x => x.IsDeleted == false, false);
         return _mapper.Map<IEnumerable<CompanyDto>>(entities);
     }
+    public async Task<IEnumerable<CompanyDto>> FindPagedAll(CompanyListQueryDto companyListQueryDto)
+    {
 
-    //public async Task<CompanyDto> FindOneByCondition(Guid id)
-    //{
-    //    var entity = await _companyRepository.FindOneByCondition(x => x.Id == id, false);
-    //    if (entity == null)
-    //    {
-    //        throw new NotFoundException(nameof(Company), id);
-    //    }
+        var entities = (await _companyRepository
+                       .GetPagedReponseAsync(companyListQueryDto.PageNumber,
+                                             companyListQueryDto.PageSize))
+                       .Where(x => x.IsDeleted == false)
+                       .OrderBy(x => x.Name);
 
+        return _mapper.Map<IEnumerable<CompanyDto>>(entities);
 
-    //    return _mapper.Map<CompanyDto>(entity);
-    //}
+    }
 
-
-    //public async Task UpdateCompany(CompanyDtoForUpdate companyDto, Guid id)
-    //{
-    //    var entityToUpdate = await _companyRepository.FindOneByCondition(x => x.Id == id, false);
-
-    //    if (entityToUpdate == null)
-    //    {
-    //        throw new NotFoundException(nameof(Company), id);
-    //    }
-
-    //    // TODO: This would be improved using PATCH
-    //    entityToUpdate.Address = companyDto.Address;
-    //    entityToUpdate.Country = companyDto.Country;
-    //    entityToUpdate.Name = companyDto.Name;
-
-    //    _companyRepository.Update(entityToUpdate);
-    //    await _companyRepository.SaveChangesAsync();
-    //}
-
-    //public async Task PartialUpdateCompany(JsonPatchDocument<CompanyDtoForUpdate> patchDocument, Guid id)
-    //{
-    //    var entity = await _companyRepository.FindOneByCondition(x => x.Id == id, false);
-    //    if (entity == null)
-    //    {
-    //        throw new NotFoundException(nameof(Company), id);
-    //    }
-    //    //TODO: Add validations here
-
-    //    var companyDtoToPatch = _mapper.Map<CompanyDtoForUpdate>(entity);
-
-    //    patchDocument.ApplyTo(companyDtoToPatch);
-    //    var pat = companyDtoToPatch;
-    //    _mapper.Map(companyDtoToPatch, entity);
-
-    //    _companyRepository.Update(entity);
-    //    await _companyRepository.SaveChangesAsync();
-
-    //}
-
-    //public async Task<IEnumerable<EmployeeDto>> GetEmployeesByCompanyId(Guid companyId)
-    //{
-    //    var company = await _companyRepository.FindOneByCondition(x => x.Id == companyId, false);
-    //    if (company == null)
-
-    //    {
-    //        throw new NotFoundException(nameof(Company), companyId);
-    //    }
-
-    //    var employees = _employeeRepository.FindAllByCondition(x => x.CompanyId == companyId, false);
-
-    //    return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
-    //}
+    public async Task<CompanyDto> FindOneByCondition(Guid id)
+    {
+        var entity = await _companyRepository.FindOneByCondition(x => x.Id == id, false);
+        if (entity == null)
+        {
+            throw new NotFoundException(nameof(Company), id);
+        }
 
 
-    //public async Task<EmployeeDto> GetEmployeeByCompanyId(Guid companyId, Guid employeeId)
-    //{
-    //    var company = await _companyRepository.FindOneByCondition(x => x.Id == companyId, false);
-    //    if (company == null)
-    //    {
-    //        throw new NotFoundException(nameof(Company), companyId);
-    //    }
+        return _mapper.Map<CompanyDto>(entity);
+    }
 
-    //    var employee = await _employeeRepository
-    //                        .FindOneByCondition(x => x.CompanyId == companyId
-    //                                               && x.Id == employeeId, false);
 
-    //    if (employee == null)
-    //    {
-    //        throw new NotFoundException(nameof(Employee), employeeId);
-    //    }
+    public async Task UpdateCompany(CompanyDtoForUpdate companyDto, Guid id)
+    {
+        var entityToUpdate = await _companyRepository.FindOneByCondition(x => x.Id == id, false);
 
-    //    return _mapper.Map<EmployeeDto>(employee);
-    //}
+        if (entityToUpdate == null)
+        {
+            throw new NotFoundException(nameof(Company), id);
+        }
+
+        // TODO: This would be improved using PATCH
+        entityToUpdate.Address = companyDto.Address;
+        entityToUpdate.Country = companyDto.Country;
+        entityToUpdate.Name = companyDto.Name;
+
+        _companyRepository.Update(entityToUpdate);
+        await _companyRepository.SaveChangesAsync();
+    }
+
+    public async Task PartialUpdateCompany(JsonPatchDocument<CompanyDtoForUpdate> patchDocument, Guid id)
+    {
+        var entity = await _companyRepository.FindOneByCondition(x => x.Id == id, false);
+        if (entity == null)
+        {
+            throw new NotFoundException(nameof(Company), id);
+        }
+        //TODO: Add validations here
+
+        var companyDtoToPatch = _mapper.Map<CompanyDtoForUpdate>(entity);
+
+        patchDocument.ApplyTo(companyDtoToPatch);
+        var pat = companyDtoToPatch;
+        _mapper.Map(companyDtoToPatch, entity);
+
+        _companyRepository.Update(entity);
+        await _companyRepository.SaveChangesAsync();
+
+    }
+
+    public async Task<IEnumerable<EmployeeDto>> GetEmployeesByCompanyId(Guid companyId)
+    {
+        var company = await _companyRepository.FindOneByCondition(x => x.Id == companyId, false);
+        if (company == null)
+
+        {
+            throw new NotFoundException(nameof(Company), companyId);
+        }
+
+        var employees = _employeeRepository.FindAllByCondition(x => x.CompanyId == companyId, false);
+
+        return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+    }
+
+
+    public async Task<EmployeeDto> GetEmployeeByCompanyId(Guid companyId, Guid employeeId)
+    {
+        var company = await _companyRepository.FindOneByCondition(x => x.Id == companyId, false);
+        if (company == null)
+        {
+            throw new NotFoundException(nameof(Company), companyId);
+        }
+
+        var employee = await _employeeRepository
+                            .FindOneByCondition(x => x.CompanyId == companyId
+                                                   && x.Id == employeeId, false);
+
+        if (employee == null)
+        {
+            throw new NotFoundException(nameof(Employee), employeeId);
+        }
+
+        return _mapper.Map<EmployeeDto>(employee);
+    }
 
 }

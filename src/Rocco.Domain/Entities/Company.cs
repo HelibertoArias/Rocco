@@ -7,7 +7,7 @@ using Rocco.Domain.Base;
 
 namespace Rocco.Domain.Entities;
 
-public class Company : AuditableEntity//, IEntity
+public class Company : AuditableEntity, IEntity
 {
 
     public string Name { get; set; } = null!;

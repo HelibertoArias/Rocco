@@ -97,7 +97,8 @@ _To start using the application you should._
 5. In VS 2020 open a new terminal and create the database for the application and the users.
     ```cmd
     Update-Database -Context RoccoContext
-     ```
+    Update-Database -Context RoccoIdentityContext
+    ```
 6. After this you can run the application. The Swagger page will show up
  [https://localhost:36000/swagger/index.html](https://localhost:36000/swagger/index.html)
 7. To validate the Web API you need to import the file *Rocco Company.postman_collection* into [POSTMAN](https://www.postman.com/downloads/) and run the test collection. Here some screenshots.

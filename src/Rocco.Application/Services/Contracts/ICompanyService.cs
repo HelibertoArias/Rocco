@@ -2,7 +2,10 @@
 // Copyright (c) 2022, Heliberto Arias
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using Rocco.Application.Models;
 
 namespace Rocco.Application.Services.Contracts;
@@ -10,17 +13,18 @@ public interface ICompanyService
 {
     IEnumerable<CompanyDto> FindAll();
 
-    //Task AddCompanyAsync(CompanyDtoForInsert companyDto);
+    Task<IEnumerable<CompanyDto>> FindPagedAll(CompanyListQueryDto companyListQueryDto);
+    Task AddCompanyAsync(CompanyDtoForInsert companyDto);
 
-    //Task<CompanyDto> FindOneByCondition(Guid id);
+    Task<CompanyDto> FindOneByCondition(Guid id);
 
-    //Task UpdateCompany(CompanyDtoForUpdate companyDto, Guid id);
+    Task UpdateCompany(CompanyDtoForUpdate companyDto, Guid id);
 
-    //Task PartialUpdateCompany(JsonPatchDocument<CompanyDtoForUpdate> patchDocument, Guid id);
+    Task PartialUpdateCompany(JsonPatchDocument<CompanyDtoForUpdate> patchDocument, Guid id);
 
-    //void DeleteCompany(Guid id);
+    Task DeleteCompany(Guid id);
 
-    //Task<IEnumerable<EmployeeDto>> GetEmployeesByCompanyId(Guid companyId);
+    Task<IEnumerable<EmployeeDto>> GetEmployeesByCompanyId(Guid companyId);
 
-    //Task<EmployeeDto> GetEmployeeByCompanyId(Guid companyId, Guid employeeId);
+    Task<EmployeeDto> GetEmployeeByCompanyId(Guid companyId, Guid employeeId);
 }

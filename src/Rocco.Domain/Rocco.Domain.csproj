@@ -6,4 +6,9 @@
     <LangVersion>10</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Base\.gitkeep" />
+    <None Remove="Entities\.gitkeep" />
+  </ItemGroup>
+
 </Project>

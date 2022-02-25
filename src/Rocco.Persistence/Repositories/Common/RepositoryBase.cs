@@ -16,6 +16,10 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class, IE
     {
         _dbContext = repositoryContext;
     }
+    public async Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)
+    {
+        return await _dbContext.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+    }
 
     public IQueryable<T> FindAll(bool trackChanges)
     {

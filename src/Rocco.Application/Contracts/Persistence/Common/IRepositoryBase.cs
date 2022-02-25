@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -25,4 +26,6 @@ public interface IRepositoryBase<T> where T : class, IEntity
     void Delete(T entity);
 
     Task SaveChangesAsync();
+
+    Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size);
 }

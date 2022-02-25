@@ -12,7 +12,7 @@ using Rocco.Persistence;
 namespace Rocco.Persistence.Migrations
 {
     [DbContext(typeof(RoccoContext))]
-    [Migration("20220223224908_Initial")]
+    [Migration("20220225043620_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,7 +69,7 @@ namespace Rocco.Persistence.Migrations
                             Address = "583 Wall Dr. Gwynn Oak, MD 21207",
                             Country = "USA",
                             CreatedBy = "Dummy",
-                            CreatedDate = new DateTime(2022, 2, 23, 17, 49, 7, 947, DateTimeKind.Local).AddTicks(4529),
+                            CreatedDate = new DateTime(2022, 2, 24, 23, 36, 20, 379, DateTimeKind.Local).AddTicks(8570),
                             IsDeleted = false,
                             Name = "IT_Solutions Ltd"
                         },
@@ -79,7 +79,7 @@ namespace Rocco.Persistence.Migrations
                             Address = "312 Forest Avenue, BF 923",
                             Country = "USA",
                             CreatedBy = "Dummy",
-                            CreatedDate = new DateTime(2022, 2, 23, 17, 49, 7, 947, DateTimeKind.Local).AddTicks(4539),
+                            CreatedDate = new DateTime(2022, 2, 24, 23, 36, 20, 379, DateTimeKind.Local).AddTicks(8583),
                             IsDeleted = false,
                             Name = "Admin_Solutions Ltd"
                         });
@@ -134,7 +134,7 @@ namespace Rocco.Persistence.Migrations
                             Age = 26,
                             CompanyId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             CreatedBy = "Dummy",
-                            CreatedDate = new DateTime(2022, 2, 23, 17, 49, 7, 947, DateTimeKind.Local).AddTicks(6133),
+                            CreatedDate = new DateTime(2022, 2, 24, 23, 36, 20, 379, DateTimeKind.Local).AddTicks(9910),
                             IsDeleted = false,
                             Name = "Sam Raiden",
                             Position = "Software developer"
@@ -145,7 +145,7 @@ namespace Rocco.Persistence.Migrations
                             Age = 30,
                             CompanyId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             CreatedBy = "Dummy",
-                            CreatedDate = new DateTime(2022, 2, 23, 17, 49, 7, 947, DateTimeKind.Local).AddTicks(6139),
+                            CreatedDate = new DateTime(2022, 2, 24, 23, 36, 20, 379, DateTimeKind.Local).AddTicks(9916),
                             IsDeleted = false,
                             Name = "Jana McLeaf",
                             Position = "Software developer"
@@ -156,7 +156,7 @@ namespace Rocco.Persistence.Migrations
                             Age = 35,
                             CompanyId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
                             CreatedBy = "Dummy",
-                            CreatedDate = new DateTime(2022, 2, 23, 17, 49, 7, 947, DateTimeKind.Local).AddTicks(6141),
+                            CreatedDate = new DateTime(2022, 2, 24, 23, 36, 20, 379, DateTimeKind.Local).AddTicks(9918),
                             IsDeleted = false,
                             Name = "Kane Miller",
                             Position = "Administrator"

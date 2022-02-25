@@ -11,11 +11,12 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        //CreateMap<Company, CompanyDto>().ReverseMap();
+
         // Automapper documentation https://bit.ly/3JKNYES
         // Sample mappings
         CreateMap<Company, CompanyDto>()
-            .ForMember(c => c.FullAddress, opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country))).ReverseMap();
+            .ForMember(c => c.FullAddress, opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)))
+            .ReverseMap();
 
 
         CreateMap<CompanyDtoForInsert, Company>().ReverseMap();
