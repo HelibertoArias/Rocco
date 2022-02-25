@@ -2,6 +2,7 @@
 // Copyright (c) 2022, Heliberto Arias
 // </copyright>
 
+using Rocco.Application;
 using Rocco.Persistence;
 using Rocco.Web.API.Extensions;
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 IConfiguration configuration = builder.Configuration;
 builder.Services.AddPersistenceServices(configuration);
+builder.Services.AddApplicationServices();
 
 // Add services to the container.
 

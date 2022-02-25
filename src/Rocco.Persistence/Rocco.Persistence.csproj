@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rocco.Application\Rocco.Application.csproj" />
     <ProjectReference Include="..\Rocco.Domain\Rocco.Domain.csproj" />
   </ItemGroup>
 

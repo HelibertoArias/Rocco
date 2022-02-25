@@ -20,14 +20,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B342C11B-B383-4464-B9A2-499393A1C345}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "POSTMAN-Collection", "POSTMAN-Collection", "{C6ADC353-C9A7-4EC6-9A73-D4C8B009B7BA}"
+	ProjectSection(SolutionItems) = preProject
+		tests\POSTMAN-Collection\Rocco Company.postman_collection.json = tests\POSTMAN-Collection\Rocco Company.postman_collection.json
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocco.Web.API", "src\Rocco.Web.API\Rocco.Web.API.csproj", "{860B98DC-0749-4890-AEC6-6CB8D6E54D53}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocco.Domain", "src\Rocco.Domain\Rocco.Domain.csproj", "{0C3F99E5-825E-43DC-BBA1-5341FFA3B6DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocco.Application", "src\Rocco.Application\Rocco.Application.csproj", "{06011BA0-A012-4C56-893D-B98163BB9D11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocco.Application", "src\Rocco.Application\Rocco.Application.csproj", "{06011BA0-A012-4C56-893D-B98163BB9D11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rocco.Persistence", "src\Rocco.Persistence\Rocco.Persistence.csproj", "{D88EA73B-D77A-4B74-A119-2DF5F6ACD7A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocco.Persistence", "src\Rocco.Persistence\Rocco.Persistence.csproj", "{D88EA73B-D77A-4B74-A119-2DF5F6ACD7A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
